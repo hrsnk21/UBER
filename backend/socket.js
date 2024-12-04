@@ -55,5 +55,6 @@ const initializeSocket = (server)=>{
         } else {
             console.log('Socket.io not initialized.');
         }
-    }
-    module.exports = { initializeSocket, sendMessageToSocketId };
+ }
+
+ module.exports = { initializeSocket, sendMessageToSocketId };
