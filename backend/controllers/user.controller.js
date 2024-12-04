@@ -49,7 +49,7 @@ module.exports.loginUser = async (req, res, next) => {
     const token = user.generateAuthToken();
     res.cookie('token', token);
     res.status(200).json({ token, user });
-    
+
 }
 
 module.exports.logoutUser = async (req, res, next) => {
@@ -58,3 +58,4 @@ module.exports.logoutUser = async (req, res, next) => {
     await blackListTokenModel.create({ token });
     res.status(200).json({ message: 'Logged out' });
 }
+
