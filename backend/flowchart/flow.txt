@@ -1,0 +1,68 @@
+https://claude.site/artifacts/494ed16f-f5b2-47db-9065-46229977fab9
+
+flowchart TB
+    subgraph Frontend
+        UserInterface["User Interface"]
+        CaptainInterface["Captain Interface"]
+    end
+
+    subgraph Backend["Backend (Express.js)"]
+        subgraph Controllers
+            UserController["User Controller"]
+            CaptainController["Captain Controller"]
+            RideController["Ride Controller"]
+            MapController["Map Controller"]
+        end
+
+        subgraph Services
+            UserService["User Service"]
+            CaptainService["Captain Service"]
+            RideService["Ride Service"]
+            MapService["Map Service"]
+        end
+
+        subgraph Middleware
+            AuthMiddleware["Authentication Middleware"]
+            ValidationMiddleware["Validation Middleware"]
+        end
+
+        subgraph Models
+            UserModel["User Model"]
+            CaptainModel["Captain Model"]
+            RideModel["Ride Model"]
+            BlacklistTokenModel["Blacklist Token Model"]
+        end
+    end
+
+    subgraph ExternalServices
+        GoogleMapsAPI["Google Maps API"]
+        SocketIO["Socket.IO"]
+    end
+
+    subgraph Database
+        MongoDB[(MongoDB)]
+    end
+
+    UserInterface --> UserController
+    CaptainInterface --> CaptainController
+    
+    UserController --> UserService
+    CaptainController --> CaptainService
+    RideController --> RideService
+    MapController --> MapService
+
+    UserService --> UserModel
+    CaptainService --> CaptainModel
+    RideService --> RideModel
+    MapService --> GoogleMapsAPI
+
+    AuthMiddleware --> BlacklistTokenModel
+    ValidationMiddleware --> Controllers
+
+    UserModel --> MongoDB
+    CaptainModel --> MongoDB
+    RideModel --> MongoDB
+    BlacklistTokenModel --> MongoDB
+
+    RideService --> SocketIO
+    MapService --> GoogleMapsAPI
