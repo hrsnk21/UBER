@@ -1,6 +1,5 @@
 const rideModel = require('../models/ride.model');
 const mapService = require('./maps.service');
-const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
 
@@ -57,13 +56,12 @@ module.exports.createRide = async ({user, pickup, destination, vehicleType}) => 
 
     const fare = await getFare(pickup, destination);
 
-    const ride = rideModel.create({
+    const ride = await rideModel.create({
         user,
         pickup,
         destination,
         otp: getOtp(6),
         fare: fare[ vehicleType ]
-
     })
     return ride;
 }
@@ -96,7 +94,7 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
         throw new Error('Ride id and OTP are required');
     }
 
-    const ride = await rideModel.findOne({
+    let ride = await rideModel.findOne({
         _id: rideId
     }).populate('user').populate('captain').select('+otp');
 
@@ -112,11 +110,11 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
         throw new Error('Invalid OTP');
     }
 
-    await rideModel.findOneAndUpdate({
+    ride = await rideModel.findOneAndUpdate({
         _id: rideId
     }, {
         status: 'ongoing'
-    })
+    },{new:true})
 
     return ride;
 }
@@ -126,7 +124,7 @@ module.exports.endRide = async ({ rideId, captain }) => {
         throw new Error('Ride id is required');
     }
 
-    const ride = await rideModel.findOne({
+    let ride = await rideModel.findOne({
         _id: rideId,
         captain: captain._id
     }).populate('user').populate('captain').select('+otp');
@@ -139,11 +137,11 @@ module.exports.endRide = async ({ rideId, captain }) => {
         throw new Error('Ride not ongoing');
     }
 
-    await rideModel.findOneAndUpdate({
+    ride = await rideModel.findOneAndUpdate({
         _id: rideId
     }, {
         status: 'completed'
-    })
+    },{new:true})
 
     return ride;
 }

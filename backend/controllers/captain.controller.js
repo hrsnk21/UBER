@@ -101,3 +101,22 @@ module.exports.updateCaptainLocation = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 }
+
+module.exports.updateStatus = async (req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        const {status} = req.body
+        const captain = await captainModel.findByIdAndUpdate(
+               req.captain._id,
+            {
+                status
+            },{new:true}
+        )
+    }
+    catch(err){
+        res.status(500).json({ message: err.message });
+    }
+}

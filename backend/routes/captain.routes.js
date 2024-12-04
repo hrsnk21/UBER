@@ -28,8 +28,12 @@ router.get('/profile', authMiddleware.authCaptain, captainController.getCaptainP
 
 router.get('/logout', authMiddleware.authCaptain, captainController.logoutCaptain)
 
-router.post('/update-location' , [
+router.post('/update-location' ,authMiddleware.authCaptain ,[
     body('address').isString().withMessage('address must be string')] , 
-    captainController.updateCaptainLocation,)
+    captainController.updateCaptainLocation)
+
+router.post('/update-status', authMiddleware.authCaptain , [
+    body('status').isString().withMessage('address must be string')],
+    captainController.updateStatus)
 
 module.exports = router;

@@ -29,7 +29,7 @@ const rideSchema = new mongoose.Schema({
         enum: [ 'pending', 'accepted', "ongoing", 'completed', 'cancelled' ],
         default: 'pending',
     },
-
+    
     duration: {
         type: Number,
     }, // in seconds
