@@ -43,16 +43,17 @@ const initializeSocket = (server)=>{
 
     })
 
-    const sendMessageToSocketId = (socketId, messageObject) => {
 
-        console.log(messageObject);
-        
-            if (io) {
-                io.to(socketId).emit(messageObject.event, messageObject.data);
-            } else {
-                console.log('Socket.io not initialized.');
-            }
+ }
+
+ const sendMessageToSocketId = (socketId, messageObject) => {
+
+    console.log(messageObject);
+    
+        if (io) {
+            io.to(socketId).emit(messageObject.event, messageObject.data);
+        } else {
+            console.log('Socket.io not initialized.');
         }
     }
-
     module.exports = { initializeSocket, sendMessageToSocketId };

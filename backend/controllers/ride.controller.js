@@ -30,7 +30,6 @@ module.exports.createRide = async (req, res) => {
     }
 };
 
-
 module.exports.getFare = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
