@@ -1,22 +1,43 @@
-import React, { useState, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import useUserStore from '../store/userStore'
+
 
 
 const UserSignup = () => {
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
-  const [ firstName, setFirstName ] = useState('')
-  const [ lastName, setLastName ] = useState('')
-  const [ userData, setUserData ] = useState({})
-
-  const navigate = useNavigate()
-
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    signup,
+    resetStore,
+    isLoading,
+    error,
+  } = useUserStore();
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
-    
+    e.preventDefault();
+    const response = await  signup();
+    if (response.success) navigate('/home');
+    else
+    {
+      toast.error(response.error || 'something went wrong')
+    } 
+  };
 
-  }
+  useEffect(() => {
+     resetStore()
+  }, [error])
   
+
+
   return (
     <div>
       <div className='p-7 h-screen flex flex-col justify-between'>
@@ -75,10 +96,9 @@ const UserSignup = () => {
               placeholder='password'
             />
 
-            <button
+            <button disabled = {isLoading} 
               className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
-            >Create account</button>
-
+            >{!isLoading ? 'Create account' : 'Creating....'}</button>
           </form>
           <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Login here</Link></p>
         </div>

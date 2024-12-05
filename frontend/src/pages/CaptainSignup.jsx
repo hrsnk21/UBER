@@ -1,21 +1,25 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useCaptainStore from '../store/captainStore'
-
+import toast from 'react-hot-toast'
 const CaptainSignup = () => {
   const navigate = useNavigate()
   const store = useCaptainStore()
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    const result = await store.signup()
+    const response = await store.signup()
     
-    if (result.success) {
-      store.resetFormFields()
-      navigate('/captain-home')
-    }
+      if (response.success) navigate('/captain-home');
+      else
+      {
+        toast.error(response.error || 'something went wrong')
+      } 
+    
   }
-
+  useEffect(() => {
+    resetStore()
+  }, [store.error])
   return (
     <div className='py-5 px-5 h-screen flex flex-col justify-between'>
     <div>
@@ -122,9 +126,9 @@ const CaptainSignup = () => {
           </select>
         </div>
 
-        <button
+        <button disabled={store.isLoading}
           className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
-        >Create Captain Account</button>
+        >{!store.isLoading ? 'Create Captain Account' : 'Creating....'}</button>
 
       </form>
       <p className='text-center'>Already have a account? <Link to='/captain-login' className='text-blue-600'>Login here</Link></p>

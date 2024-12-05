@@ -46,7 +46,7 @@ const useCaptainStore = create((set, get) => ({
     const { email, password } = get();
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/captains/login`, { email, password });
       
       if (response.status === 200) {
         const { captain, token } = response.data;
@@ -64,7 +64,7 @@ const useCaptainStore = create((set, get) => ({
         isLoading: false,
         isAuthorized: false 
       });
-      return { success: false, error: error.response?.data?.message };
+      return { success: false, error: error?.message };
     }
   },
 
@@ -92,7 +92,7 @@ const useCaptainStore = create((set, get) => ({
 
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/captains/register`, captainData);
       
       if (response.status === 201) {
         const { captain, token } = response.data;
@@ -110,16 +110,19 @@ const useCaptainStore = create((set, get) => ({
         isLoading: false,
         isAuthorized: false 
       });
-      return { success: false, error: error.response?.data?.message };
+      console.log(error)
+      return { success: false, error: error?.message };
     }
   },
 
   // Logout Action
   logout: async () => {
     const token = get().token;
+    
     set({ isLoading: true, error: null });
+    
     try {
-      await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/logout`, {
+      await axios.get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       set({ 
@@ -134,26 +137,25 @@ const useCaptainStore = create((set, get) => ({
         error: error.response?.data?.message || 'Logout failed', 
         isLoading: false 
       });
-      return { success: false, error: error.response?.data?.message };
+      return { success: false, error: error?.message };
     }
   },
 
-  logout: async (navigate) => {
+  logout: async () => {
     const token = localStorage.getItem('captain-token');
     set({ isLoading: true, error: null });
     try {
-      await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/logout`, {
+      await axios.get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       get().resetFormFields()
-      navigate('/captain-login');
       return { success: true };
     } catch (error) {
       set({ 
         error: error.response?.data?.message || 'Logout failed', 
         isLoading: false 
       });
-      return { success: false, error: error.response?.data?.message };
+      return { success: false, error: error?.message };
     }
   }
 
