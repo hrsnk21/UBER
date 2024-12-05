@@ -29,7 +29,8 @@ router.get('/profile', authMiddleware.authCaptain, captainController.getCaptainP
 router.get('/logout', authMiddleware.authCaptain, captainController.logoutCaptain)
 
 router.post('/update-location' ,authMiddleware.authCaptain ,[
-    body('address').isString().withMessage('address must be string')] , 
+    body('address').isString().withMessage('address must be string')
+] , 
     captainController.updateCaptainLocation)
 
 router.post('/update-status', authMiddleware.authCaptain , [
