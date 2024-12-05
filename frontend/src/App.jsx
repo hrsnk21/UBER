@@ -11,8 +11,12 @@ import CaptainLogout from './pages/CaptainLogout'
 import UserLogout from './pages/userLogout'
 import Home from './pages/Home'
 import CaptainHome from './pages/CaptainHome'
-const App = () => {
+import useCaptainStore from './store/captainStore'
+import useUserStore from './store/userStore'
 
+const App = () => {
+  const userStore = useUserStore()
+  const captainStore = useCaptainStore()
   return (
     <div>
       <Toaster/>
@@ -24,8 +28,8 @@ const App = () => {
          <Route path='/captain-signup' element={<CaptainSignup />} />
          <Route path='/captain-logout' element={<CaptainLogout/>} />
          <Route path='/logout' element={<UserLogout/>} />
-         <Route path='/home' element={<Home/>} />
-         <Route path='/captain-home' element={<CaptainHome/>} />
+         <Route path='/home' element={userStore.isAuthorized ? <Home/> : <UserLogin/>} />
+         <Route path='/captain-home' element={captainStore.isAuthorized ? <CaptainHome/> : <Captainlogin/>} />
        </Routes>
     </div>
   )

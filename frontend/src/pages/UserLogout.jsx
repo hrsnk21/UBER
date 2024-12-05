@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../store/userStore';
 import toast from 'react-hot-toast'
-
+import { useEffect } from 'react';
 const UserLogout = () => {
   const { logout, isLoading, error,resetStore } = useUserStore();
   const navigate = useNavigate();
