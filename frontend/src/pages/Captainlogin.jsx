@@ -20,7 +20,7 @@ const Captainlogin = () => {
   }
 
   useEffect(() => {
-    resetStore()
+    store.resetStore
  }, [store.error])
 
   return (

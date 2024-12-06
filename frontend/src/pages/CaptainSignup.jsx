@@ -20,7 +20,7 @@ const CaptainSignup = () => {
     
   }
   useEffect(() => {
-    resetStore()
+    store.resetStore
   }, [store.error])
   return (
     <div className='py-5 px-5 h-screen flex flex-col justify-between'>

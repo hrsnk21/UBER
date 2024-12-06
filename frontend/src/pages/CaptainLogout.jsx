@@ -16,7 +16,7 @@ const LogoutButton = () => {
   }
   
   useEffect(() => {
-    resetStore()
+    store.resetStore()
  }, [store.error])
 
   return (

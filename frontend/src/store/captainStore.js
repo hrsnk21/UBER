@@ -11,7 +11,7 @@ const useCaptainStore = create((set, get) => ({
   vehiclePlate: '',
   vehicleCapacity: '',
   vehicleType: '',
-  token:'',
+  token:null,
   
   captain: null,
   isLoading: false,
@@ -38,7 +38,6 @@ const useCaptainStore = create((set, get) => ({
     vehiclePlate: '',
     vehicleCapacity: '',
     vehicleType: '',
-    token:''
   }),
 
   // Login Action
@@ -141,23 +140,6 @@ const useCaptainStore = create((set, get) => ({
     }
   },
 
-  logout: async () => {
-    const token = localStorage.getItem('captain-token');
-    set({ isLoading: true, error: null });
-    try {
-      await axios.get(`${import.meta.env.VITE_API_URL}/captains/logout`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      get().resetFormFields()
-      return { success: true };
-    } catch (error) {
-      set({ 
-        error: error.response?.data?.message || 'Logout failed', 
-        isLoading: false 
-      });
-      return { success: false, error: error?.message };
-    }
-  }
 
 }));
 

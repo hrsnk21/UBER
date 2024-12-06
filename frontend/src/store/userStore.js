@@ -7,7 +7,7 @@ const useUserStore = create((set,get) => ({
   firstName: '',
   lastName: '',
   user: null,
-  token:'', 
+  token:null, 
 
   isLoading:false,
   isAuthorized: false, 
@@ -25,7 +25,6 @@ const useUserStore = create((set,get) => ({
          firstName:'',
          lastName:'',
          user:null,
-         token:'',
          isLoading:false,
          error: null,
     })
@@ -100,6 +99,7 @@ const useUserStore = create((set,get) => ({
       });
       
       if (response.status === 200) {
+        set({isAuthorized:false,token:null})
         get().resetStore()
         return { success: true };
       }
